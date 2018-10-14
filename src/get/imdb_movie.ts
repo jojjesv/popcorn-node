@@ -17,11 +17,11 @@ import {
 export default async (req: Request, res: Response) => {
   let { imdbId } = req.params;
 
-  console.log("movie", req.params);
-
   try {
-    return await fetchMovie(imdbId);
+    let result = await fetchMovie(imdbId);
+    res.status(200).end(JSON.stringify(result));
   } catch (e) {
+    console.log(e);
     handleError(res, "server", null, e);
   }
 }

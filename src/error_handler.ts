@@ -9,7 +9,7 @@ export default async (res: Response, blame: 'client'|'server', message?: string|
     console.error(e);
   }
 
-  res.status(blame == 'client' ? 400 : 500).end({
+  res.status(blame == 'client' ? 400 : 500).end(JSON.stringify({
     message: message || (blame == 'client' ? "You sent a bad request" : "Internal server error")
-  });
+  }));
 }

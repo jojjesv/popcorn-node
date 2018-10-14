@@ -9,12 +9,15 @@ const baseUrl = `http://www.omdbapi.com/?apikey=${apiKey}`;
  * Communication with the IMdB API.
  * @author Johan Svensson
  */
-export const fetchMovie = async (id: string): Promise<ImdbMovie> => {
+export const fetchMovie = async (id: string): Promise<ImdbMovie|{result: string}> => {
+  let url = `${baseUrl}&i=${encodeURIComponent(id)}`;
+  console.log("Requesting", url);
+
   let result: any = await fetch(`${baseUrl}&i=${encodeURIComponent(id)}`);
   result = await result.json();
 
   if (result.Response == "False") {
-    throw {
+    return {
       result: 'noMatch'
     };
   }
