@@ -25,10 +25,8 @@ export const fetchMovie = async (id: string): Promise<ImdbMovie> => {
     title: result.Title,
     year: parseInt(result.Year),
     pictureUri: result.Poster,
-    cast: null,
     plot: result.Plot,
-    runTime: parseInt(result.Runtime),
-    score: parseFloat(result.imdbRating),
-    possessor: null
+    runtime: parseInt(result.Runtime),
+    score: parseFloat(result.imdbRating)
   }
 };

@@ -6,25 +6,21 @@ import Movie from "../Movie";
 import utils from "../utils";
 import MoviePreview from "../MoviePreview";
 
+import {
+  fetchMovie
+} from '../internal/imdb_com';
+
 /**
- * Outputs all movies where a certain actor stars.
+ * Fetches a movie from IMdB and outputs it.
  * @author Johan Svensson
  */
 export default async (req: Request, res: Response) => {
-  let { actorId } = req.params;
-  
+  let { imdbId } = req.params;
+
+  console.log("movie", req.params);
+
   try {
-    let movies = await query(
-      `SELECT * FROM star_movies WHERE actor_id = ?`,
-      [ actorId ]
-    ) as MoviePreview[];
-
-    movies.forEach(m => {
-      m.movieId = Number(m.movieId);
-      m.year = Number(m.year);
-    });
-
-    res.status(200).end(movies);
+    return await fetchMovie(imdbId);
   } catch (e) {
     handleError(res, "server", null, e);
   }

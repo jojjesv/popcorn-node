@@ -3,14 +3,14 @@
  * @author Johan Svensson
  */
 export default class Movie {
-  id: number;
+  id: any;
   possessor?: string;
   ageRating: string;
   plot?: string;
-  runTime: number;
+  runtime: number;
   title: string;
   year: number;
   pictureUri: string;
   score: number;
-  cast: [];
+  cast?: [];
 }
