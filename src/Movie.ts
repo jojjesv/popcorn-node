@@ -10,7 +10,7 @@ export default class Movie {
   runTime: number;
   title: string;
   year: number;
-  director: string;
   pictureUri: string;
   score: number;
+  cast: [];
 }

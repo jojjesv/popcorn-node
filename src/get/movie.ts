@@ -17,11 +17,20 @@ export default async (req: Request, res: Response) => {
 
   try {
     let movie = await query(
-      `SELECT * FROM movies WHERE id = ?`,
+      require('../../queries/movie.sql'),
       [ id ]
     ) as Movie;
 
-    res.status(200).end(movie);
+    let cast = await query(
+      require('../../queries/movie_cast.sql'),
+      [ id ],
+      {
+        forceArray: true,
+      }
+    ) as [];
+    movie.cast = cast;
+
+    res.status(200).end(JSON.stringify(movie));
   } catch (e) {
     handleError(res, "server", null, e);
   }

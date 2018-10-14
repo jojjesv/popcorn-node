@@ -5,23 +5,20 @@ import handleError from '../error_handler';
 import Movie from "../Movie";
 
 /**
- * Outputs all movies, without actors.
+ * Outputs all movie previews.
  * @author Johan Svensson
  */
 export default async (req: Request, res: Response) => {
   try {
     let movies = await query(
-      `SELECT * FROM movies`
+      `SELECT id, title, picture_uri FROM movies`
     ) as Movie[];
 
     movies.forEach(m => {
       m.id = Number(m.id);
-      m.runTime = Number(m.runTime);
-      m.year = Number(m.year);
-      m.score = Number(m.score);
     })
 
-    res.status(200).end(movies);
+    res.status(200).end(JSON.stringify(movies));
   } catch (e) {
     handleError(res, "server", null, e);
   }
