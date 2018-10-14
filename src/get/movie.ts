@@ -7,24 +7,21 @@ import utils from "../utils";
 import MoviePreview from "../MoviePreview";
 
 /**
- * Outputs all movies where a certain actor stars.
+ * Outputs info about a specific movie.
  * @author Johan Svensson
  */
 export default async (req: Request, res: Response) => {
-  let { actorId } = req.params;
-  
+  let { id } = req.params;
+
+  console.log("movie", req.params);
+
   try {
-    let movies = await query(
-      `SELECT * FROM star_movies WHERE actor_id = ?`,
-      [ actorId ]
-    ) as MoviePreview[];
+    let movie = await query(
+      `SELECT * FROM movies WHERE id = ?`,
+      [ id ]
+    ) as Movie;
 
-    movies.forEach(m => {
-      m.movieId = Number(m.movieId);
-      m.year = Number(m.year);
-    });
-
-    res.status(200).end(movies);
+    res.status(200).end(movie);
   } catch (e) {
     handleError(res, "server", null, e);
   }
