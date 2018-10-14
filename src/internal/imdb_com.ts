@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import Movie from '../Movie';
+import ImdbMovie from '../ImdbMovie';
 
 const apiKey = '931ea17';
 const baseUrl = `http://www.omdbapi.com/?apikey=${apiKey}`;
@@ -8,20 +9,26 @@ const baseUrl = `http://www.omdbapi.com/?apikey=${apiKey}`;
  * Communication with the IMdB API.
  * @author Johan Svensson
  */
-export const fetchMovie = async (id: string): Promise<Movie> => {
+export const fetchMovie = async (id: string): Promise<ImdbMovie> => {
   let result: any = await fetch(`${baseUrl}&i=${encodeURIComponent(id)}`);
   result = await result.json();
 
   if (result.Response == "False") {
     throw {
-      code: 'invalidImdbId'
+      result: 'noMatch'
     };
   }
 
   return {
-    title: result.title,
-    director: result.director,
-    year: parseInt(result.year),
-    pictureUri: result.poster
+    id,
+    ageRating: result.Rated,
+    title: result.Title,
+    year: parseInt(result.Year),
+    pictureUri: result.Poster,
+    cast: null,
+    plot: result.Plot,
+    runTime: parseInt(result.Runtime),
+    score: parseFloat(result.imdbRating),
+    possessor: null
   }
 };
