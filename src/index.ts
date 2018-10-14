@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 
 app.get('/movies', require('./get/movies').default);
+app.get('/movie/imdb/:imdbId', require('./get/imdb_movie').default);
 app.get('/movie/:id', require('./get/movie').default);
 app.get('/actor/:actorId/movies', require('./get/movies_by_actor').default);
 app.post('/add_movie', require('./post/add_movie').default);
