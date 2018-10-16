@@ -1,0 +1,1 @@
+SELECT id, title, picture_uri AS pictureUri FROM movies

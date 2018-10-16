@@ -50,7 +50,7 @@ export const query = (sql: string, args?: any, opts?: QueryOptions) =>
         output = res[0];
       }
 
-      return output;
+      return resolve(output);
     });
   })
 
@@ -59,7 +59,13 @@ export const query = (sql: string, args?: any, opts?: QueryOptions) =>
  */
 export function setupDb() {
   return new Promise(async (resolve, reject) => {
-    _db = await mysql.createConnection('mysql://localhost');
+    console.log("Setting up db...");
+    _db = await mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '4444',
+      database: 'popcorn'
+    });
 
     _db.connect(e => {
       if (e) {

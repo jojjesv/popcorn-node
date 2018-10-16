@@ -11,7 +11,7 @@ import Movie from "../Movie";
 export default async (req: Request, res: Response) => {
   try {
     let movies = await query(
-      `SELECT id, title, picture_uri FROM movies`
+      require('../../queries/movies.sql')
     ) as Movie[];
 
     movies.forEach(m => {
