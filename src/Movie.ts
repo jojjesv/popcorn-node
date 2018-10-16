@@ -1,3 +1,5 @@
+import Actor from "./Actor";
+
 /**
  * Represents a single movie.
  * @author Johan Svensson
@@ -12,5 +14,5 @@ export default class Movie {
   year: number;
   pictureUri: string;
   score: number;
-  cast?: [];
+  cast?: Actor[];
 }

@@ -34,20 +34,22 @@ export const query = (sql: string, args?: any, opts?: QueryOptions) =>
 
       let output: any = res;
 
-      if (opts.skipObjectIfSingleResult) {
-        output = res.map(e => {
-          let keys = Object.keys(e);
+      if (Array.isArray(output)) {
+        if (opts.skipObjectIfSingleResult) {
+          output = res.map(e => {
+            let keys = Object.keys(e);
 
-          if (keys.length == 1) {
-            return e[keys[0]];
-          } else {
-            return e;
-          }
-        });
-      }
+            if (keys.length == 1) {
+              return e[keys[0]];
+            } else {
+              return e;
+            }
+          });
+        }
 
-      if (!opts.forceArray && res.length < 2) {
-        output = res[0];
+        if (!opts.forceArray && res.length < 2) {
+          output = res[0];
+        }
       }
 
       return resolve(output);
