@@ -17,9 +17,18 @@ export default async (req: Request, res: Response) => {
 
   try {
     let movie = await query(
-      utils.getQuery("movie")
-      [ id ]
+      utils.getQuery("movie"),
+      [ id ],
+      {
+        forceArray: false
+      }
     ) as Movie;
+
+    if (!movie) {
+      return res.status(401).end(JSON.stringify({
+        result: 'noMatch'
+      }));
+    }
 
     let cast = await query(
       utils.getQuery("movie_cast"),
@@ -28,6 +37,8 @@ export default async (req: Request, res: Response) => {
         forceArray: true,
       }
     ) as [];
+
+    //  cast won't appear unless reobject
     movie.cast = cast;
 
     res.status(200).end(JSON.stringify(movie));

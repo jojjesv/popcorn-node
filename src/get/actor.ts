@@ -15,7 +15,7 @@ export default async (req: Request, res: Response) => {
   
   try {
     let movies = await query(
-      `SELECT * FROM star_movies WHERE actor_id = ?`,
+      `SELECT role, movie AS title, movie_id AS movieId, year FROM star_movies WHERE actor_id = ?`,
       [ actorId ]
     ) as MoviePreview[];
 
