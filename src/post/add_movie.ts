@@ -42,6 +42,7 @@ export default async (req: Request, res: Response) => {
   let result: Movie = new Movie();
   result.title = body.title;
   result.plot = body.plot;
+  result.cast = [];
   result.runtime = parseInt(body.runtime);
   result.score = Number(body.score);
   result.year = parseInt(body.year);
@@ -77,10 +78,31 @@ export default async (req: Request, res: Response) => {
 
   try {
     let { insertId } = await query(
-      utils.getQuery("add_movie"),
+      utils.getQuery("insert_movie"),
       [null, result.ageRating, result.runtime,
         result.plot, result.title, result.score, result.year]
     ) as any;
+    let movieId = insertId;
+
+    //  Insert cast
+    for (let cast of result.cast) {
+      let insert = await query((
+        utils.getQuery(
+          "insert_actor_formattable"
+        )
+      ), [
+        cast.name, null
+      ]) as any;
+
+      //  Insert relation
+      await query((
+        utils.getQuery(
+          "insert_starring"
+        )
+      ), [
+        insert.id, movieId, cast.role
+      ]);
+    }
 
     return res.status(200).end(JSON.stringify({
       "ok": true,
