@@ -46,7 +46,7 @@ export const query = (sql: string, args?: any, opts?: QueryOptions) =>
         });
       }
 
-      if (!opts.forceArray && res.length == 0) {
+      if (!opts.forceArray && res.length < 2) {
         output = res[0];
       }
 

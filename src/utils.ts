@@ -44,5 +44,12 @@ export default {
       name += ".sql";
     }
     return readFileSync(path.resolve(__dirname, '../queries', name)).toString();
+  },
+
+  /**
+   * Converts any instance to an object.
+   */
+  reobject(original){
+    return JSON.parse(JSON.stringify(original));
   }
 }

@@ -23,5 +23,5 @@ setupDb().then(db => {
   app.get(`${baseUrl}/movie/imdb/:imdbId`, require('./get/imdb_movie').default);
   app.get(`${baseUrl}/movie/:id`, require('./get/movie').default);
   app.get(`${baseUrl}/actor/:actorId`, require('./get/actor').default);
-  app.post(`${baseUrl}/add_movie`, require('./post/add_movie').default);
+  app.post(`${baseUrl}/movies/add`, require('./post/add_movie').default);
 });
