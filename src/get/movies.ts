@@ -3,6 +3,7 @@ import { db, query } from "../db";
 
 import handleError from '../error_handler';
 import Movie from "../Movie";
+import utils from '../utils';
 
 /**
  * Outputs all movie previews.
@@ -11,7 +12,7 @@ import Movie from "../Movie";
 export default async (req: Request, res: Response) => {
   try {
     let movies = await query(
-      require('../../queries/movies.sql')
+      utils.getQuery("movies")
     ) as Movie[];
 
     movies.forEach(m => {

@@ -17,12 +17,12 @@ export default async (req: Request, res: Response) => {
 
   try {
     let movie = await query(
-      require('../../queries/movie.sql'),
+      utils.getQuery("movie")
       [ id ]
     ) as Movie;
 
     let cast = await query(
-      require('../../queries/movie_cast.sql'),
+      utils.getQuery("movie_cast"),
       [ id ],
       {
         forceArray: true,

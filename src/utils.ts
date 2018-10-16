@@ -1,3 +1,6 @@
+import { readFileSync } from "fs";
+import path from 'path';
+
 /**
  * Some utilities.
  * @author Johan Svensson
@@ -24,4 +27,22 @@ export default {
     }
   },
 
+  /**
+   * Reads the string contents of a file.
+   */
+  readContents(filePath) {
+    console.log(__dirname);
+    return readFileSync(path.resolve(filePath)).toString();
+  },
+
+  /**
+   * Reads a query from the queries folder.
+   * @param name Name of query file
+   */
+  getQuery(name) {
+    if (!name.endsWith('.sql')) {
+      name += ".sql";
+    }
+    return readFileSync(path.resolve(__dirname, '../queries', name)).toString();
+  }
 }
