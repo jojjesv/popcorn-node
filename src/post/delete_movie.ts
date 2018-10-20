@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { query } from "../db";
+import utils from "../utils";
 
 /**
  * Permanently deletes a movie.
@@ -14,6 +16,11 @@ export default async (req: Request, res: Response) => {
       error: "invalidMovieId"
     }));
   }
+
+  let result = await query(
+    utils.getQuery("delete_movie"),
+    [ movieId ]
+  );
 
   
 }

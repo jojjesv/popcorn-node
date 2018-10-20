@@ -24,6 +24,7 @@ export default async (req: Request, res: Response) => {
   if (isNaN(movieId)) {
     //  Invalid ID
     return res.status(400).end(JSON.stringify({
+      result: "error",
       error: "invalidMovieId"
     }));
   }
@@ -39,7 +40,8 @@ export default async (req: Request, res: Response) => {
   if (Object.keys(columnsToUpdate).length == 0) {
     //  No change
     return res.status(400).end(JSON.stringify({
-      result: "noChange"
+      result: "error",
+      error: "noChange"
     }));
   }
 
@@ -52,7 +54,6 @@ export default async (req: Request, res: Response) => {
     sql, [...columnsToUpdate.map(e => dirty[e]), movieId]
   );
 
-  console.log("Result: ", result);
   return res.status(200).end(JSON.stringify({
     result: "ok"
   }));

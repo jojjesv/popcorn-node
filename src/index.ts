@@ -25,4 +25,5 @@ setupDb().then(db => {
   app.get(`${baseUrl}/actor/:actorId`, require('./get/actor').default);
   app.post(`${baseUrl}/movies/add`, require('./post/add_movie').default);
   app.post(`${baseUrl}/movies/update`, require('./post/update_movie').default);
+  app.post(`${baseUrl}/movies/delete`, require('./post/delete_movie').default);
 });

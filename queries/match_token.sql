@@ -1,0 +1,1 @@
+SELECT 'ok' FROM auth_tokens WHERE token = ? LIMIT 1;

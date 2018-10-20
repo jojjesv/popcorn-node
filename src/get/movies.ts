@@ -15,6 +15,8 @@ export default async (req: Request, res: Response) => {
       utils.getQuery("movies")
     ) as Movie[];
 
+    movies = movies || [];
+
     movies.forEach(m => {
       m.id = Number(m.id);
     })

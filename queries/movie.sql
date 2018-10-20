@@ -3,7 +3,7 @@ SELECT
   picture_uri AS pictureUri,
   possessor,
   age_rating AS ageRating,
-  run_time AS runTime,
+  run_time AS runtime,
   plot,
   title,
   score,
