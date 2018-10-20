@@ -38,8 +38,18 @@ export default async (req: Request, res: Response) => {
       }
     ) as [];
 
+    let categories = await query(
+      utils.getQuery("movie_categories"),
+      [ id ],
+      {
+        forceArray: true,
+        skipObjectIfSingleResult: true
+      }
+    ) as string[];
+
     //  cast won't appear unless reobject
     movie.cast = cast;
+    movie.categories = categories;
 
     res.status(200).end(JSON.stringify(movie));
   } catch (e) {
