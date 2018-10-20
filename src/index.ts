@@ -23,7 +23,7 @@ setupDb().then(db => {
   app.get(`${baseUrl}/movie/imdb/:imdbId`, require('./get/imdb_movie').default);
   app.get(`${baseUrl}/movie/:id`, require('./get/movie').default);
   app.get(`${baseUrl}/actor/:actorId`, require('./get/actor').default);
-  app.post(`${baseUrl}/movies/add`, require('./post/add_movie').default);
-  app.post(`${baseUrl}/movies/update`, require('./post/update_movie').default);
-  app.post(`${baseUrl}/movies/delete`, require('./post/delete_movie').default);
+  app.post(`${baseUrl}/movie`, require('./post/movie').default);
+  app.put(`${baseUrl}/movie/:movieId`, require('./put/movie').default);
+  app.delete(`${baseUrl}/movie/:movieId`, require('./delete/movie').default);
 });

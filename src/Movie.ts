@@ -15,4 +15,5 @@ export default class Movie {
   pictureUri: string;
   score: number;
   cast?: Actor[];
+  categories: string[];
 }

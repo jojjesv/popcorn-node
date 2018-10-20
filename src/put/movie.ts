@@ -5,9 +5,9 @@ let updateableColumns = [
   "title",
   "plot",
   "possessor",
-  "age_rating",
+  "ageRating",
   "score",
-  "run_time",
+  "runtime",
   "year",
 ];
 
@@ -15,11 +15,11 @@ let updateableColumns = [
  * Updates a project from a set of "dirty" data.
  */
 export default async (req: Request, res: Response) => {
-  let { body } = req;
+  let { body, params } = req;
 
   let dirty: any = {};
 
-  let movieId = body.movie_id;
+  let movieId = params.movieId;
 
   if (isNaN(movieId)) {
     //  Invalid ID

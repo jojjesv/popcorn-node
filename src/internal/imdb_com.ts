@@ -23,7 +23,7 @@ export const fetchMovie = async (id: string): Promise<ImdbMovie|{result: string}
   }
 
   return {
-    id,
+    imdbId: id,
     ageRating: result.Rated,
     title: result.Title,
     year: parseInt(result.Year),

@@ -1,0 +1,1 @@
+INSERT INTO movie_has_category (movie_id, category_id) VALUES (?, ?)
