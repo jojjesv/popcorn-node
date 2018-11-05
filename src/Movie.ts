@@ -14,6 +14,6 @@ export default class Movie {
   year: number;
   pictureUri: string;
   score: number;
-  cast?: Actor[];
+  cast?: Actor[] = [];
   categories: string[];
 }
