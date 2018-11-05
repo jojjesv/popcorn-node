@@ -7,9 +7,9 @@ import utils from "../utils";
  * @author Johan Svensson
  */
 export default async (req: Request, res: Response) => {
-  let { body } = req;
+  let { params } = req;
 
-  let movieId = body.movieId;
+  let movieId = params.movieId;
   if (isNaN(movieId)) {
     return res.status(400).end(JSON.stringify({
       result: "error",
@@ -22,5 +22,7 @@ export default async (req: Request, res: Response) => {
     [ movieId ]
   );
 
-  
+  res.status(200).end(JSON.stringify({
+    status: 'ok'
+  }));
 }
