@@ -12,7 +12,12 @@ import utils from '../utils';
 export default async (req: Request, res: Response) => {
   try {
     let movies = await query(
-      utils.getQuery("movies")
+      utils.getQuery("movies"),
+      null,
+      {
+        forceArray: true,
+        skipObjectIfSingleResult: false
+      }
     ) as Movie[];
 
     movies = movies || [];

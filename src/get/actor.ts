@@ -15,8 +15,12 @@ export default async (req: Request, res: Response) => {
   
   try {
     let movies = await query(
-      `SELECT role, movie AS title, movie_id AS movieId, year FROM star_movies WHERE actor_id = ?`,
-      [ actorId ]
+      utils.getQuery('actor'),
+      [ actorId ],
+      {
+        forceArray: true,
+        skipObjectIfSingleResult: false
+      }
     ) as MoviePreview[];
 
     movies.forEach(m => {
