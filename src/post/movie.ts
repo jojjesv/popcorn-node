@@ -41,7 +41,7 @@ const insertCategories = async (movie: Movie) => {
 
   for (let cat of categories) {
     let categoryId = await query(
-      utils.getQuery("match_category"),
+      utils.getQuery("category"),
       [cat],
       {
         forceArray: false,
@@ -69,8 +69,8 @@ const insertCategories = async (movie: Movie) => {
 const insertMovie = async (movie: Movie) => {
   let { insertId } = await query(
     utils.getQuery("insert_movie"),
-    [null, movie.ageRating, movie.runtime,
-      movie.plot, movie.title, movie.score, movie.year]
+    [movie.pictureUri, movie.ageRating, movie.runtime,
+    movie.plot, movie.title, movie.score, movie.year]
   ) as any;
   let movieId = insertId;
   movie.id = movieId;
@@ -86,6 +86,7 @@ const insertCast = async (movie: Movie) => {
     ), [
         cast.name, null
       ]) as any;
+      console.log("Cast: ", cast, "insert: ", insert);
 
     //  Insert relation
     await query((
@@ -93,7 +94,7 @@ const insertCast = async (movie: Movie) => {
         "insert_starring"
       )
     ), [
-        insert.id, movie.id, cast.role
+        insert.insertId, movie.id, cast.role
       ]);
   }
 }
@@ -107,10 +108,22 @@ export default async (req: Request, res: Response) => {
 
   let addByImdbId = 'imdb_id' in body;
 
-  let result: Movie = new Movie();
+  let result: Movie;
+  if (addByImdbId) {
+    
+    let imdbMovie: ImdbMovie = result = new ImdbMovie();
+    imdbMovie.imdbId = body.imdb_id;
+
+    let fetched = (await fetchMovie(imdbMovie.imdbId)).result as ImdbMovie;
+    //  These fields are not settable by the client
+    imdbMovie.pictureUri = fetched.pictureUri;
+    imdbMovie.cast = fetched.cast;
+
+  } else {
+    result = new Movie();
+  }
   result.title = body.title;
   result.plot = body.plot;
-  result.cast = [];
   result.runtime = parseInt(body.runtime);
   result.score = Number(body.score);
   result.year = parseInt(body.year);
@@ -128,7 +141,7 @@ export default async (req: Request, res: Response) => {
 
   try {
     if (addByImdbId) {
-      let imdbMovie = await fetchMovie(body.imdb_id) as ImdbMovie;
+      let imdbMovie = (await fetchMovie(body.imdb_id)).result as ImdbMovie;
 
       //  Populate unset fields
       for (let field in Movie.prototype) {
