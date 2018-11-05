@@ -3,7 +3,9 @@
  */
 export default class {
   id: number;
-  role: 'director'|'cast'|'writer';
-  name: string;
   pictureUri: string;
+
+  constructor(public name: string, public role: 'director'|'cast'|'writer') {
+
+  }
 }
