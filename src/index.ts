@@ -10,8 +10,8 @@ import { db, setupDb } from './db';
 const app = express();
 
 setupDb().then(db => {
-  const port = 3001;
-  app.listen(3001, () => {
+  const port = 8003;
+  app.listen(port, () => {
     console.log("Popcorn API listening on port " + port);
   });
   app.use(express.urlencoded({ extended: true }))
@@ -27,3 +27,6 @@ setupDb().then(db => {
   app.put(`${baseUrl}/movie/:movieId`, require('./put/movie').default);
   app.delete(`${baseUrl}/movie/:movieId`, require('./delete/movie').default);
 });
+
+//  Prevent nodemon from leaving child process running
+process.on('SIGINT', () => { console.log("Bye bye!"); process.exit(); });

@@ -10,17 +10,10 @@ import utils from '../utils';
  * @author Johan Svensson
  */
 export default async (req: Request, res: Response) => {
-  try {
-    let movies = await query(
-      utils.getQuery("movies"),
-      null,
-      {
-        forceArray: true,
-        skipObjectIfSingleResult: false
-      }
-    ) as Movie[];
+  let query = req.query || {};
 
-    movies = movies || [];
+  try {
+    let movies = await queryWithSearch(query.q, query.scope) || [];
 
     movies.forEach(m => {
       m.id = Number(m.id);
@@ -30,4 +23,44 @@ export default async (req: Request, res: Response) => {
   } catch (e) {
     handleError(res, "server", null, e);
   }
+}
+
+async function queryWithSearch(searchQuery: string, scope?: 'movies' | 'category' | 'cast'): Promise<Movie[]> {
+  let queryName: string = 'movies';
+  let queryArgs = [searchQuery];
+
+  if (searchQuery) {
+    switch (scope) {
+      case 'category':
+        queryName = 'movies_search_category'
+        break;
+
+      case 'cast':
+        queryName = 'movies_search_cast'
+        break;
+
+      case 'movies':
+        queryName = 'movies_search_name';
+        break;
+    }
+  }
+
+  let sql = utils.getQuery(queryName);
+
+  if (/order by\s?instr\((.+),(\s)?\?\)/ig.test(sql)) {
+    //  Orders by the search query index of
+    queryArgs.push(searchQuery);
+  }
+
+  console.log("searchQuery:", searchQuery, "scope:", scope)
+  console.log("sql:", sql, "args:", queryArgs)
+
+  return await query(
+    sql,
+    queryArgs,
+    {
+      forceArray: true,
+      skipObjectIfSingleResult: false
+    }
+  ) as Movie[]
 }

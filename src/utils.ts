@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import path from 'path';
+import { Response } from "express";
 
 /**
  * Some utilities.
@@ -24,6 +25,16 @@ export default {
 
     if (missingProps.length > 0) {
       throw new Error("Missing parameters: " + missingProps.join(","));
+    }
+  },
+
+  /**
+   * Invokes assertParams(), and end the request if that fails.
+   * @returns Whether the assertion did not fail.
+   */
+  assertParamsWithResponse(res: Response, props: string[], obj: any): boolean {
+    try {
+      assert
     }
   },
 
